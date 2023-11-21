@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Post 大腸癌之CEA檢測紀錄</title>
+
+    <script src="https://caizhen0110.github.io/ColorectalCancerBloodTest-_-Post-Web-Get-Web/setting_2.js"></script>
+    <script src="https://caizhen0110.github.io/ColorectalCancerBloodTest-_-Post-Web-Get-Web/Cookie.js"></script>
+    <script src="https://caizhen0110.github.io/ColorectalCancerBloodTest-_-Post-Web-Get-Web/dateTime.js"></script>
+    <script src="https://caizhen0110.github.io/ColorectalCancerBloodTest-_-Post-Web-Get-Web/HTTP2024.js"></script>
+
+    <script>
+        var jsonObj = {
+            "resourceType": "Observation",
+            "status": "final",
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "13955-0",
+                        "display": "Carcinoembryonic Antigen [Mass/volume] in Serum or Plasma"
+                    }
+                ],
+                "text": "CEA Test"
+            },
+            "subject": {
+                "reference": "Patient/34047651"
+            },
+            "effectiveDateTime": "2023-10-15T08:30:00+00:00",
+            "valueQuantity": {
+                "value": 5.2,
+                "unit": "ng/mL",
+                "system": "http://unitsofmeasure.org",
+                "code": "ng/mL"
+            }
+        }
+            ;
+
+        function postData() {
+            if(document.getElementById("patientID").value!=""&&document.getElementById("CEA").value!=""){
+                document.getElementById("errormsg").innerHTML="";
+                
+                jsonObj.subject.reference="Patient/"+parseInt(document.getElementById("patientID").value);
+                jsonObj.valueQuantity.value = parseFloat(document.getElementById("CEA").value);
+                jsonObj.effectiveDateTime = getFormattedTime();
+                var jsonStr = JSON.stringify(jsonObj);
+                //alert(jsonStr);
+                var apiURL;
+                apiURL = FHIRrootURL + "Observation";
+                // HTTPPostData( apiURL,jsonStr);
+                sendHttpPost(apiURL, jsonStr, callBack);
+                document.getElementById("errormsg").innerHTML="成功登入一筆";
+            }   
+            else{
+                document.getElementById("errormsg").innerHTML="尚未輸入完整";
+            }   
+        }
+        function callBack(ret) {
+            console.log(ret);
+            //alert(ret);
+        }
+
+
+    </script>
+
+</head>
+
+<body style="height: 780px">
+
+    <input id="Button1" onclick="postData()" type="button" value="postData" /><br />
+    <a id="errormsg" style="color: red;"></a>
+
+    <p>請輸入病患id</p> 
+    
+    病患id: <input type="text" id="patientID" value="34047651" /> <br />
+
+    <p>請輸入大腸癌之血液CEA檢測值</p>
+
+    CEA檢測值: <input type="text" id="CEA" /> <br />
+
+</body>
+
+</html>
