@@ -1,2 +1,3 @@
-﻿var FHIRrootURL ="https://fhir.tcumi.com:58443/r5/fhir/";
+﻿var FHIRrootURL ="https://hapi.fhir.org/baseR4/Patient";
 /* https://fhir.tcumi.com:58443/r5/fhir/ */
+/* https://hapi.fhir.org/baseR4/Patient */
