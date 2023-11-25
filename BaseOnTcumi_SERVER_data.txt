@@ -1,0 +1,57 @@
+Organization：
+
+    { 
+        "resourceType": "Organization",
+        "name": "台中晉嘉醫院"
+    }
+
+    --> {
+        "resourceType": "Organization",
+        "id": "5240",
+        "meta": {
+            "versionId": "1",
+            "lastUpdated": "2023-11-25T15:20:28.553+08:00"
+        },
+        "name": "1121_FHIR_HOSPITAL"
+        }
+        
+Patient：
+
+    {
+        "resourceType": "Patient",
+            "name": [{
+                "use": "official",
+                "text": "王雪琴"
+            }],
+                "gender": "female",
+                    "birthDate": "1985-04-25",
+                        "managingOrganization": {
+            "reference": "Organization/5240"
+        }
+    }
+
+    --> {
+            "resourceType": "Patient",
+            "id": "5241",
+            "meta": {
+                "versionId": "1",
+                "lastUpdated": "2023-11-25T15:28:23.431+08:00"
+            },
+            "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\"/><table class=\"hapiPropertyTable\"><tbody><tr><td>Date of birth</td><td><span>25 April 1985</span></td></tr></tbody></table></div>"
+            },
+            "name": [ {
+                "use": "official",
+                "text": "王雪琴"
+            } ],
+            "gender": "female",
+            "birthDate": "1985-04-25",
+            "managingOrganization": {
+                "reference": "Organization/5240"
+            }
+        }
+    
+
+
+
