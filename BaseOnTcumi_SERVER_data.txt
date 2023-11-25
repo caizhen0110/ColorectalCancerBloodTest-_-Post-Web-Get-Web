@@ -2,7 +2,7 @@ Organization：
 
     { 
         "resourceType": "Organization",
-        "name": "台中晉嘉醫院"
+        "name": "1121_FHIR_HOSPITAL"
     }
 
     --> {
