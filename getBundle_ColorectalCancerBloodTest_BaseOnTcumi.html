@@ -13,6 +13,10 @@
 <body>
   <div id="Title">Get Bundle</div>
   <p></p>
+  <label>PatientID：</label><input id="PatientID" type="text" value="34047651" />
+  <br>
+  <label>SearchCode：</label><input id="SearchCode" type="text" value="13955-0" />
+  <p></p>
   <input id="Button2" onclick="getData()" type="button" value="Get data" />
   <p></p>
   <div id="observations"></div>
@@ -23,7 +27,7 @@
        var apiURL;
        apiURL = document.getElementById("fullURL").value;
        HTTPGetData(apiURL); */
-      apiURL = "https://fhir.tcumi.com:58443/r5/fhir/Observation?code=13955-0&&subject=5241";
+      apiURL = "https://fhir.tcumi.com:58443/r5/fhir/Observation?code="+document.getElementById("SearchCode").value+"&&subject="+document.getElementById("PatientID").value;
       //https://hapi.fhir.org/baseR4/Observation?code=8310-5&subject=42024";
       //http://hapi.fhir.org/baseR4/Observation?code=8310-5";
       // apiURL ="https://hapi.fhir.tw/fhir/Patient";
