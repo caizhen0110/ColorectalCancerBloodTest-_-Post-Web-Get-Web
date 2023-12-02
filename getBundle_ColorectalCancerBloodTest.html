@@ -1,68 +1,76 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title> Get 大腸癌之CEA檢測紀錄</title></title>
- 	<script src="setting.js"></script>
-    <script src="HTTP2024.js"></script>
- 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title> Get 大腸癌之CEA檢測紀錄</title>
+  </title>
+  <script src="setting.js"></script>
+  <script src="HTTP2024.js"></script>
+
 </head>
+
 <body>
-    <div id="Title">Get Bundle</div>
-    <p></p>
-    <input id="Button2" onclick="getData()" type="button" value="Get data" />
-     <p></p>
-    <div id="observations"></div>
-    <script>
-       
-        function getData() {
-           /* var dataString = document.getElementById("fullURL").value;
-            var apiURL;
-            apiURL = document.getElementById("fullURL").value;
-            HTTPGetData(apiURL); */
-           apiURL ="https://hapi.fhir.org/baseR4/Observation?code=13955-0&&subject=34047651";
-           //https://hapi.fhir.org/baseR4/Observation?code=8310-5&subject=42024";
-           //http://hapi.fhir.org/baseR4/Observation?code=8310-5";
-          // apiURL ="https://hapi.fhir.tw/fhir/Patient";
-        
-          // HTTPGetData(apiURL); 
-          sendHttpGet(apiURL,callBack );
+  <div id="Title">Get Bundle</div>
+  <p></p>
+  <label>PatientID：</label><input id="PatientID" type="text" value="34047651" />
+  <br>
+  <label>SearchCode：</label><input id="SearchCode" type="text" value="13955-0" />
+  <p></p>
+  <input id="Button2" onclick="getData()" type="button" value="Get data" />
+  <p></p>
+  <div id="observations"></div>
+  <script>
+
+    function getData() {
+      /* var dataString = document.getElementById("fullURL").value;
+       var apiURL;
+       apiURL = document.getElementById("fullURL").value;
+       HTTPGetData(apiURL); */
+      apiURL = "https://hapi.fhir.org/baseR4/Observation?code="+document.getElementById("SearchCode").value+"&&subject="+document.getElementById("PatientID").value;
+      //https://hapi.fhir.org/baseR4/Observation?code=8310-5&subject=42024";
+      //http://hapi.fhir.org/baseR4/Observation?code=8310-5";
+      // apiURL ="https://hapi.fhir.tw/fhir/Patient";
+
+      // HTTPGetData(apiURL); 
+      sendHttpGet(apiURL, callBack);
+    }
+
+
+    function callBack(ret) {
+
+      //清空輸出
+      document.getElementById("observations").textContent = "";
+      //    document.getElementById("TextArea1").value = ret;
+      // 解析 FHIR Bundle JSON 数据
+      //alert(ret);
+      const bundle = JSON.parse(ret);
+      // Find the div tag to append the results
+      const div = document.getElementById('observations');
+      // 检查 Bundle 的类型
+      if (bundle.resourceType === "Bundle") {
+        // 获取 entry 数组的长度
+        const entryCount = bundle.entry.length;
+
+        // 创建一个空字符串来存储输出
+        let output = "";
+        // 使用 for 循环遍历每个 entry
+        for (let i = 0; i < entryCount; i++) {
+          // const entry = bundle.entry[i]; 
+          thisResource = bundle.entry[i].resource;  //抓到第i筆 resource
+          id = thisResource.id;
+          const measurementTime = thisResource.effectiveDateTime; //取得時間
+          const CEA_Test = thisResource.valueQuantity.value;  //取得檢測值
+          const p = document.createElement('p');  //建立一個p標籤
+          p.innerText = `Time: ${measurementTime} ,CEA檢測值:${CEA_Test}`;
+          div.appendChild(p);
         }
 
-  
-function callBack(ret) {
+      }
 
-  //清空輸出
-  document.getElementById("observations").textContent="";
-//    document.getElementById("TextArea1").value = ret;
-// 解析 FHIR Bundle JSON 数据
-//alert(ret);
-const bundle = JSON.parse(ret);
- // Find the div tag to append the results
- const div = document.getElementById('observations');
-// 检查 Bundle 的类型
-if (bundle.resourceType === "Bundle") {
-  // 获取 entry 数组的长度
-  const entryCount = bundle.entry.length;
-  
-   // 创建一个空字符串来存储输出
-   let output = "";
-  // 使用 for 循环遍历每个 entry
-  for (let i = 0; i < entryCount; i++) {
-   // const entry = bundle.entry[i]; 
-    thisResource =bundle.entry[i].resource;
-    id= thisResource.id;
-    const measurementTime =  thisResource.effectiveDateTime;
-    const CEA_Test= thisResource.valueQuantity.value;
-    const p = document.createElement('p');
-    p.innerText = `Time: ${measurementTime} ,CEA檢測值:${CEA_Test}`;
-    div.appendChild(p);
     }
-    
-   }
- 
- }  
- 
- </script>
+
+  </script>
 </body>
+
 </html>
